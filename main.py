@@ -70,18 +70,29 @@ with tab1:
 
 with tab2:
     st.subheader("산불 발생 시군구별 Choropleth 지도")
-    m2 = folium.Map(location=[36.5, 127.8], zoom_start=7, tiles="CartoDB positron")
+    
+    col_left, col_right = st.columns([2, 1], gap="medium")
 
-    Choropleth(
-        geo_data=gdf_geojson,
-        data=df_result,
-        columns=['SIG_CD', '발생건수'],
-        key_on='feature.properties.SIG_CD',
-        legend_name='산불 발생건수',
-        fill_color='YlOrRd',
-    ).add_to(m2)
+    with col_left:
+        m2 = folium.Map(location=[36.5, 127.8], zoom_start=7, tiles="CartoDB positron")
 
-    st_folium(m2, width=900, height=600)
+        Choropleth(
+            geo_data=gdf_geojson,
+            data=df_result,
+            columns=['SIG_CD', '발생건수'],
+            key_on='feature.properties.SIG_CD',
+            legend_name='산불 발생건수',
+            fill_color='YlOrRd',
+        ).add_to(m2)
+
+        st_folium(m2, width=900, height=600)
+
+    with col_right:
+        st.image("image.png", use_container_width=True, caption="소방 커버리지 예시")
+
+    
+    st.image("image2.png", width=900,  caption="커버리지와 실제 산불 위험 중첩 예시")
+
 
 
 
